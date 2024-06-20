@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->string('path');
+            $table->string('external_id');
             $table->boolean('include_in_email')->default(false);
             $table->timestamps();
         });

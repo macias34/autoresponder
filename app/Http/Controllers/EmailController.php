@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\PollAIResponse;
 use App\Models\Email;
+use App\Models\File;
 use Illuminate\Http\Request;
 use OpenAI\Laravel\Facades\OpenAI;
 
@@ -51,23 +53,32 @@ class EmailController extends Controller
 
     public function generateResponse(Email $email)
     {
-        $result = OpenAI::chat()->create([
-            'model' => 'gpt-3.5-turbo',
-            'messages' => [
-                [
-                    'role' => 'user',
-                    'content' => "Create response to email with following content: {$email->text}. Response should be
-                    written in sender's native language.
-                    "
-                ],
-            ],
+        $files = File::where('include_in_email', true)->get();
+
+//        $attachments = $files->map(fn($file) => [
+//            'file_id' => $file['external_id'],
+//            'tools' => [
+//                ['type' => 'file_search']
+//            ]
+//        ]);
+        $prompt = "Create a response for email, based on files, with content '{$email->text}'.";
+
+        $assistantId = 'asst_EpqGjqchyoDwzgixRawM22vo';
+
+        $thread = OpenAI::threads()->create([]);
+        $threadId = $thread->id;
+        OpenAI::threads()->messages()->create($threadId, [
+            'role' => 'assistant',
+            'content' => $prompt,
+//            'attachments' => $attachments,
+        ]);
+        $run = OpenAI::threads()->runs()->create(threadId: $threadId, parameters: [
+            'assistant_id' => $assistantId
         ]);
 
-        $response = $result->choices[0]->message->content;
+        $runId = $run->id;
 
-        $email->update([
-            'response' => $response,
-        ]);
+        PollAIResponse::dispatch($email, $threadId, $runId);
 
         return to_route('emails.show', ['email' => $email]);
     }
@@ -87,5 +98,4 @@ class EmailController extends Controller
     {
         //
     }
-
 }

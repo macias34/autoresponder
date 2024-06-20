@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
+use OpenAI\Laravel\Facades\OpenAI;
 
 class FileObserver
 {
@@ -28,6 +29,7 @@ class FileObserver
     public function deleted(File $file): void
     {
         Storage::delete($file->path);
+        OpenAI::files()->delete($file->external_id);
     }
 
     /**

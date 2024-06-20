@@ -1,10 +1,12 @@
 <div class="flex flex-col">
-    <div class="self-end flex gap-2 mb-6 min-h-10">
+    <div class="mb-6 min-h-10 flex justify-between">
+        <livewire:upload-file-button/>
         @if($this->isAnySelected())
-            <x-primary-button wire:click="includeSelectedInEmail">In/Exclude in mail</x-primary-button>
-            <x-secondary-button wire:click="deleteSelected">Delete</x-secondary-button>
+            <div class="flex gap-2">
+                <x-primary-button wire:click="includeSelectedInEmail">In/Exclude in mail</x-primary-button>
+                <x-secondary-button wire:click="deleteSelected">Delete</x-secondary-button>
+            </div>
         @endif
-
     </div>
 
     <div class="grid grid-cols-6 gap-6">
