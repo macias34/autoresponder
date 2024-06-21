@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\AnswerEmails;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -9,4 +10,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 
-Schedule::command('app:poll-imap-emails')->everyFifteenSeconds()->appendOutputTo("storage/logs/poll-imap-emails.log");
+Schedule::command('app:poll-imap-emails')->everyFifteenSeconds();
+Schedule::command('app:answer-emails')->everyFifteenSeconds();
