@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Email;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Webklex\PHPIMAP\ClientManager;
@@ -30,36 +31,41 @@ class PollImapEmails extends Command
      */
     public function handle()
     {
-        $cm = new ClientManager($options = []);
+        User::all()->each(function ($user) {
+            $cm = new ClientManager($options = []);
 
-        $client = $cm->make([
-            'host' => "imap.gmail.com",
-            'port' => 993,
-            'encryption' => "ssl",
-            'validate_cert' => true,
-            'username' => "imapmaciej@gmail.com",
-            'password' => "dzop tmso nzaf cpch",
-            'default_config' => 'default'
-        ]);
-        $client->connect();
-        $folder = $client->getFolder('INBOX');
-        $messages = $folder->messages()->all()->get();
+            $imapConfiguration = $user->imapConfiguration->toArray();
 
-        $client->disconnect();
+            try {
+                $client = $cm->make([
+                    ...$imapConfiguration,
+                    'default_config' => 'default'
+                ]);
 
-        Log::debug('Polling Imap emails..');
+                $client->connect();
+                $folder = $client->getFolder('INBOX');
+                $messages = $folder->messages()->all()->get();
 
-        $emails = $this->mapMessagesToEmailModel($messages);
+                $client->disconnect();
 
-        $existingEmailIds = Email::whereIn('id', array_column($emails, 'id'))->pluck('id')->toArray();
+                Log::debug('Polling Imap emails..');
 
-        $newEmails = array_filter($emails, function ($email) use ($existingEmailIds) {
-            return !in_array($email['id'], $existingEmailIds);
+                $emails = $this->mapMessagesToEmailModel($messages);
+
+                $existingEmailIds = Email::whereIn('id', array_column($emails, 'id'))->pluck('id')->toArray();
+
+                $newEmails = array_filter($emails, function ($email) use ($existingEmailIds) {
+                    return !in_array($email['id'], $existingEmailIds);
+                });
+
+                if (!empty($newEmails)) {
+                    Email::insert($newEmails);
+                }
+            } catch (\Exception $e) {
+                Log::debug("Failed to polled imap emails. {$e->getMessage()}");
+            }
         });
 
-        if (!empty($newEmails)) {
-            Email::insert($newEmails);
-        }
     }
 
     protected function mapMessagesToEmailModel(MessageCollection $messages): array

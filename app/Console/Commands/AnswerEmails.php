@@ -28,9 +28,10 @@ class AnswerEmails extends Command
     public function handle()
     {
         $emails = Email::all()->whereNull('response');
+        $prompt = auth()->user()->prompt;
 
-        $emails->each(function ($email) {
-            CreateEmailResponse::run($email);
+        $emails->each(function ($email) use ($prompt) {
+            CreateEmailResponse::run($email, $prompt);
         });
     }
 }

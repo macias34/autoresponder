@@ -16,6 +16,8 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/imap-configuration', [ProfileController::class, 'updateImapConfiguration'])
+        ->name('profile.imap-configuration.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('emails', EmailController::class);
     Route::post('emails/{email}/generate-response', [EmailController::class, 'generateResponse'])

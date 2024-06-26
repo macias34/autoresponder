@@ -13,17 +13,15 @@ class CreateEmailResponse
     protected $signature = 'app:create-email-response';
 
 
-    public function handle(Email $email)
+    public function handle(Email $email, string $prompt)
     {
-        $prompt = "Create a response for email, based on files, with content '{$email->text}'.";
-
         $assistantId = 'asst_EpqGjqchyoDwzgixRawM22vo';
 
         $thread = OpenAI::threads()->create([]);
         $threadId = $thread->id;
         OpenAI::threads()->messages()->create($threadId, [
             'role' => 'assistant',
-            'content' => $prompt,
+            'content' => $prompt . $email->text,
         ]);
         $stream = OpenAI::threads()->runs()->createStreamed(threadId: $threadId, parameters: [
             'assistant_id' => $assistantId
