@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->string('prompt')->default("Create a response for email, based on files, with content: ");
+            $table->string('openai_api_key')->default("sk-proj-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            $table->string('assistant_id')->default("XXX-XXX");
             $table->boolean('auto_generated')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

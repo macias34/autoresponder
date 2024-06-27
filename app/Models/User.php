@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use OpenAI;
 
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
@@ -24,7 +25,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'imap_configuration'
+        'imap_configuration',
+        'openai_api_key',
+        'prompt',
+        'assistant_id'
     ];
 
     /**
@@ -40,6 +44,11 @@ class User extends Authenticatable
     public function imapConfiguration(): HasOne
     {
         return $this->hasOne(ImapConfiguration::class);
+    }
+
+    public function openAiClient(): OpenAI\Client
+    {
+        return OpenAI::client($this->attributes['openai_api_key']);
     }
 
     /**

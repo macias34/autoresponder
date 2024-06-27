@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/imap-configuration', [ProfileController::class, 'updateImapConfiguration'])
         ->name('profile.imap-configuration.update');
+    Route::patch('/profile/generate-assistant', [ProfileController::class, 'generateAssistant'])
+        ->name('profile.generate-assistant');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('emails', EmailController::class);
     Route::post('emails/{email}/generate-response', [EmailController::class, 'generateResponse'])

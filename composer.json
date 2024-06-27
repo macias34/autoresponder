@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
         "lorisleiva/laravel-actions": "^2.8",
+        "openai-php/client": "^0.10.1",
         "openai-php/laravel": "^0.10.1",
         "webklex/laravel-imap": "^4.1"
     },
