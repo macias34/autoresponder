@@ -66,11 +66,4 @@
         </div>
     </form>
 
-    <form class="mt-4" id="generate-assistant" method="POST" action="{{route('profile.generate-assistant')}}">
-        @csrf
-        @method('patch')
-        <x-primary-button>{{ __('Generate assistant') }}</x-primary-button>
-
-    </form>
-
 </section>

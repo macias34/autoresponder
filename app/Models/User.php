@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use OpenAI;
 
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
@@ -52,12 +51,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Email::class);
     }
-
-    public function openAiClient(): OpenAI\Client
-    {
-        return OpenAI::client($this->attributes['openai_api_key']);
-    }
-
 
     /**
      * Get the attributes that should be cast.

@@ -36,8 +36,8 @@ Route::middleware('auth')->group(function () {
         ->name('settings.imap-configuration.update');
     Route::patch('/settings/open-ai-configuration', [SettingsController::class, 'updateOpenAIConfiguration'])
         ->name('settings.open-ai-configuration.update');
-    Route::patch('/profile/generate-assistant', [ProfileController::class, 'generateAssistant'])
-        ->name('profile.generate-assistant');
+    Route::patch('/settings/generate-assistant', [SettingsController::class, 'generateAssistant'])
+        ->name('settings.generate-assistant');
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/files', [FileController::class, 'store'])->name('files.store');

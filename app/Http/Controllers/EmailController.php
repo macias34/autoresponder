@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateEmailResponse;
 use App\Models\Email;
+use App\Services\EmailResponseService;
 use Illuminate\Http\Request;
 
 class EmailController extends Controller
 {
+    public function __construct(protected EmailResponseService $emailResponseService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -51,7 +55,7 @@ class EmailController extends Controller
 
     public function generateResponse(Email $email)
     {
-        CreateEmailResponse::run($email);
+        $this->emailResponseService->createAndSaveResponse($email);
         return to_route('emails.show', ['email' => $email]);
     }
 

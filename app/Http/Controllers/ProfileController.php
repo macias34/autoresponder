@@ -20,7 +20,7 @@ class ProfileController extends Controller
             'user' => $request->user(),
         ]);
     }
-    
+
     /**
      * Update the user's profile information.
      */
@@ -38,22 +38,6 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    public function generateAssistant(Request $request): RedirectResponse
-    {
-        $openAiClient = $request->user()->openAiClient();
-        $assistant = $openAiClient->assistants()->create([
-            'name' => 'Email auto responder',
-            'model' => 'gpt-4',
-        ]);
-
-        $request->user()->fill([
-            'assistant_id' => $assistant->id,
-        ]);
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
 
     /**
      * Delete the user's account.
