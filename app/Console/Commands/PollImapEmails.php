@@ -52,17 +52,10 @@ class PollImapEmails extends Command
 
                 $emails = $this->mapMessagesToEmailModel($messages);
 
-                $existingEmailIds = Email::whereIn('id', array_column($emails, 'id'))->pluck('id')->toArray();
+                $user->emails()->createMany($emails);
 
-                $newEmails = array_filter($emails, function ($email) use ($existingEmailIds) {
-                    return !in_array($email['id'], $existingEmailIds);
-                });
-
-                if (!empty($newEmails)) {
-                    Email::insert($newEmails);
-                }
             } catch (\Exception $e) {
-                Log::debug("Failed to polled imap emails. {$e->getMessage()}");
+                Log::debug("Failed to polled imap emails.");
             }
         });
 

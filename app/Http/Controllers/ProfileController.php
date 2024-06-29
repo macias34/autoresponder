@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Http\Requests\UpdateImapConfigurationRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,16 +20,7 @@ class ProfileController extends Controller
             'user' => $request->user(),
         ]);
     }
-
-    public function updateImapConfiguration(UpdateImapConfigurationRequest $request)
-    {
-        $imapConfiguration = $request->validated()['imap_configuration'];
-
-        $request->user()->imapConfiguration()->update($imapConfiguration);
-
-        return Redirect::route('profile.edit')->with('status', 'profile-imap-configuration-updated');
-    }
-
+    
     /**
      * Update the user's profile information.
      */

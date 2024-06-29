@@ -16,8 +16,13 @@
                                 :active="request()->routeIs('emails.index')">
                         {{ __('Email') }}
                     </x-nav-link>
-                    <x-nav-link wire:navigate :href="route('files.index')" :active="request()->routeIs('files.index')">
-                        {{ __('Files') }}
+                    <x-nav-link wire:navigate :href="route('response-management.index')"
+                                :active="request()->routeIs('response-management.index')">
+                        {{ __('Response management') }}
+                    </x-nav-link>
+                    <x-nav-link wire:navigate :href="route('settings.index')"
+                                :active="request()->routeIs('settings.index')">
+                        {{ __('Settings') }}
                     </x-nav-link>
                 </div>
             </div>

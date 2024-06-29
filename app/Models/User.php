@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -28,7 +29,8 @@ class User extends Authenticatable
         'imap_configuration',
         'openai_api_key',
         'prompt',
-        'assistant_id'
+        'assistant_id',
+        'auto_generated'
     ];
 
     /**
@@ -46,10 +48,16 @@ class User extends Authenticatable
         return $this->hasOne(ImapConfiguration::class);
     }
 
+    public function emails(): HasMany
+    {
+        return $this->hasMany(Email::class);
+    }
+
     public function openAiClient(): OpenAI\Client
     {
         return OpenAI::client($this->attributes['openai_api_key']);
     }
+
 
     /**
      * Get the attributes that should be cast.
@@ -61,6 +69,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'auto_generated' => 'boolean'
         ];
     }
 }

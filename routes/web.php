@@ -3,6 +3,8 @@
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResponseManagementController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,15 +18,28 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::patch('/profile/imap-configuration', [ProfileController::class, 'updateImapConfiguration'])
-        ->name('profile.imap-configuration.update');
-    Route::patch('/profile/generate-assistant', [ProfileController::class, 'generateAssistant'])
-        ->name('profile.generate-assistant');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     Route::resource('emails', EmailController::class);
     Route::post('emails/{email}/generate-response', [EmailController::class, 'generateResponse'])
         ->name('emails.generate-response');
-    Route::get('/files', [FileController::class, 'index'])->name('files.index');
+
+    Route::get('/response-management', [ResponseManagementController::class, 'index'])->name('response-management.index');
+    Route::patch('/response-management/prompt',
+        [ResponseManagementController::class, 'updatePrompt'])
+        ->name('response-management.update-prompt');
+    Route::patch('/response-management/toggle-auto-generation',
+        [ResponseManagementController::class, 'toggleAutoGeneration'])
+        ->name('response-management.toggle-auto-generation');
+
+    Route::patch('/settings/imap-configuration', [SettingsController::class, 'updateImapConfiguration'])
+        ->name('settings.imap-configuration.update');
+    Route::patch('/settings/open-ai-configuration', [SettingsController::class, 'updateOpenAIConfiguration'])
+        ->name('settings.open-ai-configuration.update');
+    Route::patch('/profile/generate-assistant', [ProfileController::class, 'generateAssistant'])
+        ->name('profile.generate-assistant');
+
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/files', [FileController::class, 'store'])->name('files.store');
 
 });

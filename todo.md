@@ -1,4 +1,5 @@
-- dodać konfiguracje OpenAI
-- dodać relacje pomiędzy Userem, a Emailami, żeby móc brać Prompt z Usera
-- dodać włączanie trybu automatycznego schedulowania
-  
+- wysyłka maili i templaty
+
+- Refactor
+    - service do OpenAI
+    - service do Maili

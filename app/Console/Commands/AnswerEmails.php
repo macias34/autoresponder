@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Actions\CreateEmailResponse;
 use App\Models\Email;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class AnswerEmails extends Command
 {
@@ -25,13 +25,12 @@ class AnswerEmails extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        $emails = Email::all()->whereNull('response');
-        $prompt = auth()->user()->prompt;
-
-        $emails->each(function ($email) use ($prompt) {
-            CreateEmailResponse::run($email, $prompt);
-        });
+        $emails = Email::all()->whereNull('response')->where('user.auto_generated', true);
+        Log::debug($emails->toArray());
+//        $emails->each(function ($email) {
+//            CreateEmailResponse::run($email);
+//        });
     }
 }

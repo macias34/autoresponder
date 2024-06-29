@@ -25,29 +25,6 @@
         </div>
 
         <div>
-            <x-input-label for="prompt" :value="__('Prompt')"/>
-            <x-text-input id="prompt" name="prompt" type="text" class="mt-1 block w-full"
-                          :value="old('prompt', $user->prompt)"
-                          required autofocus autocomplete="prompt"/>
-            <x-input-error class="mt-2" :messages="$errors->get('prompt')"/>
-        </div>
-
-        <div>
-            <x-input-label for="openai_api_key" :value="__('OpenAI API Key')"/>
-            <x-text-input id="openai_api_key" name="openai_api_key" type="text" class="mt-1 block w-full"
-                          :value="old('openai_api_key', $user->openai_api_key)"
-                          required autofocus autocomplete="openai_api_key"/>
-            <x-input-error class="mt-2" :messages="$errors->get('openai_api_key')"/>
-        </div>
-        <div>
-            <x-input-label for="assistant_id" :value="__('Assistant ID')"/>
-            <x-text-input id="assistant_id" name="assistant_id" type="text" class="mt-1 block w-full"
-                          :value="old('assistant_id', $user->assistant_id)"
-                          required autofocus autocomplete="assistant_id"/>
-            <x-input-error class="mt-2" :messages="$errors->get('assistant_id')"/>
-        </div>
-
-        <div>
             <x-input-label for="email" :value="__('Email')"/>
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
                           :value="old('email', $user->email)" required autocomplete="username"/>
