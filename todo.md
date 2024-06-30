@@ -1,3 +1,11 @@
+- home page
 - security:
     - prywatne pliki
     - permisje
+- revoke credentiale
+    - gmail
+    - open ai api key
+    - assistant id
+    - pliki
+- validacja SMTP, IMAP, Open AI
+    - strzał po connection
