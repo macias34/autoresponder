@@ -26,7 +26,7 @@ class ResponseEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Response Email',
+            subject: 'Response for your question',
         );
     }
 

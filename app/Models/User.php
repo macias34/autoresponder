@@ -29,7 +29,8 @@ class User extends Authenticatable
         'openai_api_key',
         'prompt',
         'assistant_id',
-        'auto_generated'
+        'auto_generated',
+        'auto_answered'
     ];
 
     /**
@@ -67,7 +68,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'auto_generated' => 'boolean'
+            'auto_generated' => 'boolean',
+            'auto_answered' => 'boolean'
         ];
     }
 }

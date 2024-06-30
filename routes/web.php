@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/response-management/toggle-auto-generation',
         [ResponseManagementController::class, 'toggleAutoGeneration'])
         ->name('response-management.toggle-auto-generation');
+    Route::patch('/response-management/toggle-auto-answered',
+        [ResponseManagementController::class, 'toggleAutoAnswered'])
+        ->name('response-management.toggle-auto-answered');
 
     Route::patch('/settings/imap-configuration', [SettingsController::class, 'updateImapConfiguration'])
         ->name('settings.imap-configuration.update');

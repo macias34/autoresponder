@@ -1,14 +1,19 @@
 <?php
 
 use App\Jobs\AnswerEmails;
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote')->hourly();
+Schedule::command('app:poll-imap-emails')
+    ->everyFifteenSeconds()
+    ->withoutOverlapping()
+    ->runInBackground();
 
+Schedule::command('app:generate-email-responses')
+    ->everyFifteenSeconds()
+    ->withoutOverlapping()
+    ->runInBackground();
 
-Schedule::command('app:poll-imap-emails')->everyFifteenSeconds();
-//Schedule::command('app:answer-emails')->everyFifteenSeconds();
+Schedule::command('app:answer-emails')
+    ->everyFifteenSeconds()
+    ->withoutOverlapping()
+    ->runInBackground();

@@ -25,15 +25,34 @@
                     <h2 class="text-xl font-semibold">
                         Response
                     </h2>
+
                     <p class="text-sm">
                         {{ $email->response }}
                     </p>
                 </div>
 
             @endif
-            <x-primary-button form="generate-response">Generate response</x-primary-button>
-            <x-primary-button :disabled="is_null($email->response) || $email->answered" form="answer">Answer
-            </x-primary-button>
+            <div class="flex items-center justify-between">
+                <div class="flex gap-3">
+                    <x-primary-button form="generate-response">Generate response</x-primary-button>
+                    <x-primary-button :disabled="is_null($email->response) || $email->answered" form="answer">Answer
+                    </x-primary-button>
+                </div>
+
+                <div class="flex gap-3">
+                    @if($email->answered)
+                        <x-badge color="green">Answered</x-badge>
+                    @else
+                        <x-badge color="yellow">Not Answered</x-badge>
+                    @endif
+
+                    @if($email->response)
+                        <x-badge color="blue">Response generated</x-badge>
+                    @else
+                        <x-badge color="yellow">Response not generated</x-badge>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 

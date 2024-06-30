@@ -30,6 +30,18 @@ class ResponseManagementController extends Controller
         return Redirect::route('response-management.index');
     }
 
+    public function toggleAutoAnswered(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        $autoAnswered = $user->auto_answered;
+
+        $user->update([
+            'auto_answered' => !$autoAnswered
+        ]);
+
+        return Redirect::route('response-management.index');
+    }
+
     public function updatePrompt(ProfilePromptUpdateRequest $request): RedirectResponse
     {
 

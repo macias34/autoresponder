@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('openai_api_key')->default("sk-proj-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             $table->string('assistant_id')->default("XXX-XXX");
             $table->boolean('auto_generated')->default(false);
+            $table->boolean('auto_answered')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

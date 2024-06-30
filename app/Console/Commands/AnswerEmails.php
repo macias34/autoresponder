@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Email;
+use App\Services\MailService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
 class AnswerEmails extends Command
 {
@@ -30,10 +30,11 @@ class AnswerEmails extends Command
      */
     public function handle(): void
     {
-        $emails = Email::all()->whereNull('response')->where('user.auto_generated', true);
-        Log::debug($emails->toArray());
-//        $emails->each(function ($email) {
-//            $this->emailResponseService->createAndSaveResponse($email);
-//        });
+        $emails = Email::all()->where('answered', false)->where('user.auto_answered', true);
+        $emails->each(function ($email) {
+            $smtpConfiguration = $email->user->smtpConfiguration;
+            $mailService = new MailService($smtpConfiguration);
+            $mailService->send($email);
+        });
     }
 }

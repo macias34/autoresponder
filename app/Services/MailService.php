@@ -37,11 +37,12 @@ class MailService
         );
     }
 
-    public function send(Email $email, string $address, string $name): void
+    public function send(Email $email): void
     {
+        $user = $email->user;
         $mailable = new ResponseEmail($email);
 
-        $this->mailer->alwaysFrom(address: $address, name: $name);
+        $this->mailer->alwaysFrom(address: $user->email, name: $user->name);
         $this->mailer->to($email->from)->send($mailable);
 
         $email->update([

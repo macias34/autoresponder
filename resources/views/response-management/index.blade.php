@@ -17,7 +17,10 @@
                         {{ __("This will affect all of your email prompts.") }}
                     </p>
                 </header>
-                @include('response-management.partials.toggle-auto-generation-button')
+                <div class="flex gap-2">
+                    @include('response-management.partials.toggle-auto-generated-button')
+                    @include('response-management.partials.toggle-auto-answered-button')
+                </div>
                 @include('response-management.partials.prompt-form')
                 <livewire:selectable-files-form/>
             </div>

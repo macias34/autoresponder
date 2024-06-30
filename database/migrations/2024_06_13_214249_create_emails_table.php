@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('from')->nullable();
             $table->string('personal')->nullable();
             $table->string('response')->nullable();
-            $table->boolean('answered')->nullable();
+            $table->boolean('answered')->default(false);
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });

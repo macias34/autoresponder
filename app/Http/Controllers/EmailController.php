@@ -44,7 +44,7 @@ class EmailController extends Controller
         $smtpConfiguration = $user->smtpConfiguration;
         $mailService = new MailService($smtpConfiguration);
 
-        $mailService->send(email: $email, address: $user->email, name: $user->name);
+        $mailService->send($email);
 
         return to_route('emails.show', ['email' => $email]);
     }
