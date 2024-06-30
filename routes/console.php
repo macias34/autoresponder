@@ -10,5 +10,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 
-//Schedule::command('app:poll-imap-emails')->everyFifteenSeconds();
-Schedule::command('app:answer-emails')->everyFifteenSeconds();
+Schedule::command('app:poll-imap-emails')->everyFifteenSeconds();
+//Schedule::command('app:answer-emails')->everyFifteenSeconds();

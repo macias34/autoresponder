@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Email;
-use App\Services\EmailResponseService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -22,9 +21,9 @@ class AnswerEmails extends Command
      */
     protected $description = 'Command description';
 
-    public function __construct(protected EmailResponseService $emailResponseService)
-    {
-    }
+//    public function __construct(protected EmailResponseService $emailResponseService)
+//    {
+//    }
 
     /**
      * Execute the console command.

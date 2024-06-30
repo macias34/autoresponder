@@ -23,6 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('emails', EmailController::class);
     Route::post('emails/{email}/generate-response', [EmailController::class, 'generateResponse'])
         ->name('emails.generate-response');
+    Route::post('emails/{email}/answer', [EmailController::class, 'answer'])
+        ->name('emails.answer');
 
     Route::get('/response-management', [ResponseManagementController::class, 'index'])->name('response-management.index');
     Route::patch('/response-management/prompt',
@@ -38,6 +40,9 @@ Route::middleware('auth')->group(function () {
         ->name('settings.open-ai-configuration.update');
     Route::patch('/settings/generate-assistant', [SettingsController::class, 'generateAssistant'])
         ->name('settings.generate-assistant');
+    Route::patch('/settings/smtp-configuration', [SettingsController::class, 'updateSmtpConfiguration'])
+        ->name('settings.smtp-configuration.update');
+
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/files', [FileController::class, 'store'])->name('files.store');

@@ -21,37 +21,13 @@ class UserObserver
                 'validate_cert' => true,
             ]
         );
+
+        $user->smtpConfiguration()->create([
+            'host' => 'smtp.gmail.com',
+            'port' => 587,
+            'user' => 'user',
+            'password' => 'password',
+        ]);
     }
 
-    /**
-     * Handle the User "updated" event.
-     */
-    public function updated(User $user): void
-    {
-        //
-    }
-
-    /**
-     * Handle the User "deleted" event.
-     */
-    public function deleted(User $user): void
-    {
-        //
-    }
-
-    /**
-     * Handle the User "restored" event.
-     */
-    public function restored(User $user): void
-    {
-        //
-    }
-
-    /**
-     * Handle the User "force deleted" event.
-     */
-    public function forceDeleted(User $user): void
-    {
-        //
-    }
 }

@@ -13,7 +13,7 @@ class OpenAIService
     public function __construct()
     {
         $user = auth()->user();
-        $openAiApiKey = $user->openai_api_key;
+        $openAiApiKey = $user->openai_api_key ?? "";
         $this->client = \OpenAI::client($openAiApiKey);
     }
 

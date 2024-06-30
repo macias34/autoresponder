@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImapConfigurationUpdateRequest;
 use App\Http\Requests\OpenAIConfigurationUpdateRequest;
+use App\Http\Requests\SmtpConfigurationUpdateRequest;
 use App\Services\OpenAIService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -50,5 +51,13 @@ class SettingsController extends Controller
         $request->user()->save();
 
         return Redirect::route('settings.index')->with('status', 'profile-updated');
+    }
+
+    public function updateSmtpConfiguration(SmtpConfigurationUpdateRequest $request): RedirectResponse
+    {
+        $smtpConfiguration = $request->validated();
+        $request->user()->smtpConfiguration()->update($smtpConfiguration);
+
+        return to_route('settings.index')->with('status', 'smtp-configuration-updated');
     }
 }

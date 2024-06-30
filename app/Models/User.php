@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasOne(ImapConfiguration::class);
     }
 
+    public function smtpConfiguration(): HasOne
+    {
+        return $this->hasOne(SmtpConfiguration::class);
+    }
+
     public function emails(): HasMany
     {
         return $this->hasMany(Email::class);

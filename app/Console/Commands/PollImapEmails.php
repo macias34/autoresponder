@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Email;
+use App\Mappers\EmailMapper;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Webklex\PHPIMAP\ClientManager;
-use Webklex\PHPIMAP\Support\MessageCollection;
 
 class PollImapEmails extends Command
 {
@@ -29,9 +28,9 @@ class PollImapEmails extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(EmailMapper $emailMapper): void
     {
-        User::all()->each(function ($user) {
+        User::all()->each(function ($user) use ($emailMapper) {
             $cm = new ClientManager($options = []);
 
             $imapConfiguration = $user->imapConfiguration->toArray();
@@ -44,32 +43,19 @@ class PollImapEmails extends Command
 
                 $client->connect();
                 $folder = $client->getFolder('INBOX');
-                $messages = $folder->messages()->all()->get();
+                $messages = $folder->messages()->all()->get()->toArray();
 
                 $client->disconnect();
 
                 Log::debug('Polling Imap emails..');
 
-                $emails = $this->mapMessagesToEmailModel($messages);
-
+                $emails = array_map(fn($message) => $emailMapper->mapMessageToEmail($message)->toArray(), $messages);
                 $user->emails()->createMany($emails);
 
             } catch (\Exception $e) {
                 Log::debug("Failed to polled imap emails.");
             }
         });
-
-    }
-
-    protected function mapMessagesToEmailModel(MessageCollection $messages): array
-    {
-        return collect($messages)->map(function ($message) {
-            return new Email([
-                'id' => $message->getUid(),
-                'subject' => $message->getSubject(),
-                'text' => $message->getTextBody(),
-                'html' => $message->getHtmlBody(),
-            ]);
-        })->toArray();
     }
 }
+
