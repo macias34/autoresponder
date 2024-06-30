@@ -1,2 +1,3 @@
-- prywatne pliki
-- wysyłka maili i templaty
+- security:
+    - prywatne pliki
+    - permisje
